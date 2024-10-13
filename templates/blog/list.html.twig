@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div>
+    {% include 'partials/menu.html.twig' %}
+</div>
+<div>
+    {% if articles|length > 0 %}
+        {% for article in articles %}
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.content }}</p>
+            <a href="{{ path('article_show', { slug: article.slug }) }}">Détail de l'aricle</a>
+        {% endfor %}
+    {% else %}
+        <p>Aucun article à afficher pour le moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<h2>{{ article.title }}</h2>
+<p>{{ article.content }}</p>
+<br/>
+<a href="{{ path('blog_list') }}">Retour à la liste des articles</a>
+{% endblock %}
