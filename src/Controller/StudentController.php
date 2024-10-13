@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -130,6 +132,17 @@ class StudentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_student_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/api/students-list', name: 'api_student_list', methods: ['GET'])]
+    public function list(EntityManagerInterface $em, SerializerInterface $serializer): Response
+    {
+        $students = $em->getRepository(Student::class)->findAll();
+
+        // Utilisation du sérialiseur pour convertir les objets en JSON
+        $jsonContent = $serializer->serialize($students, 'json');
+
+        return new Response($jsonContent, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 
 }
